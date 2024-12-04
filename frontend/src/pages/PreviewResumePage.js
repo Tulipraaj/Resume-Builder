@@ -3,7 +3,9 @@ import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import ResumeTemplate from "../components/ResumeTemplate"; // Import the ResumeTemplate component
 import html2pdf from "html2pdf.js"; 
+import jsPDF from "jspdf";
 import "../styles/previewresume.css"
+import html2canvas from "html2canvas";
 
 function PreviewResumePage() {
     const [resumeData, setResumeData] = useState(null);
@@ -18,16 +20,17 @@ function PreviewResumePage() {
 
     const handleDownloadResume = () => {
         const element = document.getElementById("resume"); // Get the resume HTML element
-        const options = {
-            margin: 0.5,
-            filename: "resume.pdf",
-            image: { type: "jpeg", quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-        };
+        html2canvas(element).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgWidth = 210; // A4 width in mm
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            pdf.save('resume.pdf');
+        });
 
         // Generate the PDF from the resume HTML
-        html2pdf().from(element).set(options).save();
+        //html2pdf().from(element).set(options).save();
     };
 
     if (!resumeData) {

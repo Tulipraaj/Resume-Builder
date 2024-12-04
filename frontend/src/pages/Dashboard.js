@@ -7,10 +7,10 @@ import Cookies from "js-cookie"
 
 function Dashboard(){
   const [resumeData, setResumeData] = useState({
-    personalDetails: { name: "", email: "", phone: "", address: "" },
+    personalDetails: { name: "", email: "", phone: "", address: "", linkedin: "", github: "" },
     objective: {},
     skills: [""], 
-    education: [{ degree: "", institution: "", yearOfGraduation: "" }],
+    education: [{ degree: "", institution: "", yearOfGraduation: "", percentage: "" }],
     experience: [{ jobTitle: "", companyName: "", startDate: "", endDate: "", description: "" },],
     projects: [{ projName: "", projDescription: "" }],
     achievements: [""],
@@ -202,6 +202,32 @@ function Dashboard(){
         </div>
 
         <div className='form-group'>
+          <label htmlFor="linkedin">LinkedIn</label>
+          <input 
+            type='text'
+            id='linkedin'
+            name='linkedin'
+            placeholder='Enter your LinkedIn Profile URL'
+            value={resumeData.personalDetails.linkedin || ""}
+            onChange={handleChange}
+          
+          />
+        </div>
+
+        <div className='form-group'>
+          <label htmlFor="github">GitHub</label>
+          <input 
+            type='text'
+            id='github'
+            name='github'
+            placeholder='Enter your GitHub Profile URL'
+            value={resumeData.personalDetails.github || ""}
+            onChange={handleChange}
+        
+          />
+        </div>
+
+        <div className='form-group'>
           <label htmlFor="objective">Objective</label>
           <input 
             type='text'
@@ -244,6 +270,15 @@ function Dashboard(){
                   value={edu.yearOfGraduation}
                   onChange={(e) => handleArrayChange(e, "education", index, "yearOfGraduation")}
                   placeholder='Year of Graduation'
+                  required
+                />
+
+                <label htmlFor="Percentage">Percentage</label>
+                <input 
+                  type='text'
+                  value={edu.percentage}
+                  onChange={(e) => handleArrayChange(e, "education", index, "percentage")}
+                  placeholder='Percentage'
                   required
                 />
 

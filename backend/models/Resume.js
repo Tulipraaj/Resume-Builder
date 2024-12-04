@@ -8,6 +8,8 @@ const resumeSchema = new mongoose.Schema({
         phone: {type:String},
         email: {type:String},
         address: {type:String},
+        linkedin: {type:String},
+        github: {type:String}
     },
     objective: {type:String},
     skills: [{type:String}],
@@ -15,6 +17,7 @@ const resumeSchema = new mongoose.Schema({
         degree: {type:String},
         institution: {type:String},
         yearOfGraduation: {type:String},
+        percentage: {type:String}
     }],
     experience: [{
         jobTitle: {type:String},
