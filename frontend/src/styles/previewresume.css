@@ -1,0 +1,73 @@
+/* PreviewResumePage.css */
+
+.resume-container {
+    width: 70%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 30px;
+    color: #333;
+}
+
+.header p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #2d3e50;
+    border-bottom: 2px solid #2d3e50;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+ul, .section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li, .section p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.education-item, .experience-item, .project-item {
+    margin-bottom: 15px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.download-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.download-button:hover {
+    background-color: #45a049;
+}

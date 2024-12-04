@@ -9,6 +9,7 @@ const resumeSchema = new mongoose.Schema({
         email: {type:String},
         address: {type:String},
     },
+    objective: {type:String},
     skills: [{type:String}],
     education: [{
         degree: {type:String},
@@ -27,6 +28,7 @@ const resumeSchema = new mongoose.Schema({
         projDescription: {type:String},
     }],
     achievements: [{type: String}],
+    templates : {type: String, default: "default-template"},
     createdAt: {type:Date, default: Date.now}
 });
 

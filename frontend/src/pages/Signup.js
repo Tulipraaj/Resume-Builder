@@ -36,7 +36,7 @@ function Signup(){
 
             alert(result.data.message)
             if (result){
-                navigate('/home')
+                navigate('/')
             }
         } catch (error) {
             console.error(error);

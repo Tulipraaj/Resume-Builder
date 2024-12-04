@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react';
 import axios from "axios"
 import "../styles/dashboard.css"
 import {jwtDecode} from "jwt-decode"
+import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie"
 
 function Dashboard(){
   const [resumeData, setResumeData] = useState({
     personalDetails: { name: "", email: "", phone: "", address: "" },
-    skills: [], 
+    objective: {},
+    skills: [""], 
     education: [{ degree: "", institution: "", yearOfGraduation: "" }],
     experience: [{ jobTitle: "", companyName: "", startDate: "", endDate: "", description: "" },],
     projects: [{ projName: "", projDescription: "" }],
@@ -31,6 +34,13 @@ function Dashboard(){
       },
     }));
   };
+
+  const handleObjective = (e) => {
+    const { name, value } = e.target
+    setResumeData((prevData) => ({
+      ...prevData,[name] : value,
+    }))
+  }
 
   const handleAdd = (arrayName, newValue) => {
     setResumeData((prevData) => ({
@@ -127,6 +137,13 @@ function Dashboard(){
     fetchUserDetails();
   }, [userId, token]);
 
+  const navigate = useNavigate()
+
+  const handleChooseTemplate = () => {
+    Cookies.set("resumeData", JSON.stringify(resumeData));
+    navigate("/choose-template")
+  }
+
   return(
     <div className='dashboard-container'>
       <h1>Dashboard</h1>
@@ -185,6 +202,20 @@ function Dashboard(){
         </div>
 
         <div className='form-group'>
+          <label htmlFor="objective">Objective</label>
+          <input 
+            type='text'
+            id='objective'
+            name='objective'
+            placeholder='Enter your Objective'
+            value={resumeData.objective || ""}
+            onChange={handleObjective}
+            required
+          />
+        </div>
+
+
+        <div className='form-group'>
           <label htmlFor='education'>Education</label>
           {resumeData.education.map((edu, index) => (
             <div key={index} className='array-field'>
@@ -228,6 +259,28 @@ function Dashboard(){
             Add Education
           </button>
         </div>
+
+        <div className="form-group">
+          <label htmlFor="achievements">Skills</label>
+          {resumeData.skills.map((skill, index) => (
+            <div key={index} className="array-field">
+              <input
+                type="text"
+                value={skill}
+                onChange={(e) => handleArrayChange(e, "skills", index)}
+                placeholder="Achievement"
+                required
+              />
+              <button className="remove-button" type="button" onClick={() => handleRemove("skills", index)}>
+                Remove
+              </button>
+            </div>
+          ))}
+          <button className="add-button" type="button" onClick={() => handleAdd("skills", "")}>
+            Add Skill
+          </button>
+        </div>
+
 
         <div className="form-group">
             <label htmlFor="experience">Experience</label>
@@ -340,6 +393,7 @@ function Dashboard(){
 
         <div className="form-actions">
             <button className="save-button" type="submit">Save Resume</button>
+            <button className="save-button" onClick={handleChooseTemplate} type="submit">Choose Template</button>
         </div>
       </form>
 
