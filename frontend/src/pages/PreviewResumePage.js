@@ -1,56 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import Cookies from "js-cookie";
 import ResumeTemplate from "../components/ResumeTemplate"; // Import the ResumeTemplate component
-import html2pdf from "html2pdf.js"; 
-import jsPDF from "jspdf";
-import "../styles/previewresume.css"
-import html2canvas from "html2canvas";
+import { PDFExport } from "@progress/kendo-react-pdf"; // Import PDFExport
+import "../styles/previewresume.css";
 
 function PreviewResumePage() {
-    const [resumeData, setResumeData] = useState(null);
+  const [resumeData, setResumeData] = useState(null);
+  const pdfExportComponent = useRef(); // Reference to PDFExport component
 
-    useEffect(() => {
-        const storedResumeData = Cookies.get("resumeData");
-
-        if (storedResumeData) {
-            setResumeData(JSON.parse(storedResumeData));
-        }
-    }, []);
-
-    const handleDownloadResume = () => {
-        const element = document.getElementById("resume"); // Get the resume HTML element
-        html2canvas(element).then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgWidth = 210; // A4 width in mm
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            pdf.save('resume.pdf');
-        });
-
-        // Generate the PDF from the resume HTML
-        //html2pdf().from(element).set(options).save();
-    };
-
-    if (!resumeData) {
-        return <div>Loading...</div>;
+  useEffect(() => {
+    const storedResumeData = Cookies.get("resumeData");
+    if (storedResumeData) {
+      setResumeData(JSON.parse(storedResumeData));
     }
+  }, []); // Empty dependency array to ensure this runs only once after the initial render
 
-    return (
-        <div>
-            <div className="footer">
-                <button className="download-button" onClick={handleDownloadResume}>
-                    Download Resume
-                </button>
-            </div>
-            
-            {/* Render the resume template with the resumeData */}
-            <div id="resume">
-                <ResumeTemplate resumeData={resumeData} />
-            </div>
-        </div>
-    );
+  const generatePDF = () => {
+    // Trigger the save method of PDFExport only when the user clicks the button
+    if (pdfExportComponent.current) {
+      pdfExportComponent.current.save(); // Trigger the save method to generate and download the PDF
+    }
+  };
+
+  return (
+    <div>
+      {/* PDFExport component wrapping ResumeTemplate */}
+      <PDFExport ref={pdfExportComponent} paperSize="A4" margin={0} fileName="Resume.pdf">
+        {/* Render ResumeTemplate inside the PDFExport component */}
+        {resumeData ? (
+          <ResumeTemplate resumeData={resumeData} />
+        ) : (
+          <p>Loading resume data...</p>
+        )}
+      </PDFExport>
+
+      {/* Button to trigger PDF generation */}
+      <button className="download-button" onClick={generatePDF}>
+        Download as PDF
+      </button>
+    </div>
+  );
 }
 
 export default PreviewResumePage;

@@ -119,15 +119,28 @@ function Dashboard(){
               )
               const resume = resumeDetails.data
       
-              if(resume){
-                setResumeData(resume)
-              }
+              if (resume) {
+                // Normalize dates in the "experience" array
+                const normalizedExperience = resume.experience.map((exp) => ({
+                  ...exp,
+                  startDate: exp.startDate ? exp.startDate.split('T')[0] : "",
+                  endDate: exp.endDate ? exp.endDate.split('T')[0] : "",
+                }));
           
+                setResumeData({
+                  ...resume,
+                  experience: normalizedExperience,
+                });
+              }
+
+              
           const response = await axios.get(`http://localhost:5000/api/users/user/${userId}`, {
               headers: {
                   Authorization: `Bearer ${token}`,
               },
           });
+
+
           setUserName(response.data.name);
         } catch (error) {
             console.error("Error fetching user details:", error);

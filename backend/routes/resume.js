@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 router.post("/create-or-update", auth, async (req, res) => {
-    const { userId, personalDetails, skills, education, experience, projects, achievements, templates } = req.body;
+    const { userId, personalDetails, objective, skills, education, experience, projects, achievements, templates } = req.body;
 
     try {
         // Check if a resume already exists for this user
@@ -14,6 +14,7 @@ router.post("/create-or-update", auth, async (req, res) => {
         if (resume) {
             // Update existing resume
             resume.personalDetails = personalDetails || resume.personalDetails;
+            resume.objective = objective || resume.objective;
             resume.skills = skills || resume.skills;
             resume.education = education || resume.education;
             resume.experience = experience || resume.experience;

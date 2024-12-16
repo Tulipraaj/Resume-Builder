@@ -1,8 +1,8 @@
 /* PreviewResumePage.css */
 
 .resume-container {
-    width: 100%;
-    margin: 20px auto 10px 10px;
+    margin: auto;
+    width: 90%;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -58,39 +58,35 @@ ul li, .section p {
 }
 
 .download-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    display: block; /* Ensures the button behaves like a block element */
+    margin: 20px auto; /* Centers the button horizontally and adds vertical spacing */
+    padding: 10px 20px; /* Adjust button padding */
+    font-size: 16px; /* Make the text readable */
+    color: #fff; /* Button text color */
+    background-color: #007bff; /* Button background color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-align: center;
+  }
+  
+  .download-button:hover {
+    background-color: #0056b3; /* Slightly darker blue on hover */
+  }
+  
 
-.download-button:hover {
-    background-color: #45a049;
-}
+
 
 
 @media print {
-    body {
-        margin: 0;
-        font-size: 12px;
+    /* Forces a page break before specific sections */
+    .page-break {
+      page-break-before: always;
     }
-
-    .resume-container {
-        width: 100%;
-        margin: 0 auto;
-        padding: 20px;
-        break-after: always; /* Ensures a new page starts after the element */
+  
+    /* Prevents content from being split across pages */
+    .no-page-break {
+      page-break-inside: avoid;
     }
-
-    .section {
-        break-inside: avoid; /* Prevents breaking inside a section */
-    }
-
-    .header, .footer {
-        text-align: center;
-    }
-}
+  }
+  
